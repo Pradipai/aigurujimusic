@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creator Studio - Ai Guruji</title>
+    <title>AI Music Creator - Ai Guruji</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/creator.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,11 +12,12 @@
     <header class="header">
         <nav class="nav-container">
             <div class="logo">
+                <img src="images/logo.png" alt="Ai Guruji Logo" class="logo-img">
                 <h1>Ai Guruji</h1>
             </div>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="creator.html">Creator</a></li>
+                <li><a href="creator.html" class="active">Creator</a></li>
                 <li><a href="community.html">Community</a></li>
                 <li><a href="gadgets.html">Music Gadgets</a></li>
                 <li><a href="about.html">About Us</a></li>
@@ -26,30 +27,30 @@
     </header>
 
     <main class="creator-main">
-        <section class="creator-studio">
-            <h2>Music Creator Studio</h2>
-            <div class="creator-container">
+        <div class="creator-container">
+            <div class="input-section">
+                <h2>Create Your Music</h2>
                 <div class="prompt-section">
-                    <textarea 
-                        placeholder="Describe your music (e.g., 'Create a romantic Hindi song with guitar and piano')"
-                        class="prompt-input"
-                    ></textarea>
-                    
-                    <div class="genre-selection">
-                        <h3>Select Genre</h3>
-                        <div class="genre-buttons">
-                            <button class="genre-btn">Pop</button>
-                            <button class="genre-btn">Rock</button>
-                            <button class="genre-btn">Classical</button>
-                            <button class="genre-btn">Hip Hop</button>
-                            <button class="genre-btn">Jazz</button>
-                            <button class="genre-btn">Electronic</button>
-                        </div>
+                    <label for="prompt">Describe your song:</label>
+                    <textarea id="prompt" placeholder="Example: Create a upbeat pop song with Hindi lyrics about love and happiness, with male vocals and modern beats"></textarea>
+                </div>
+                
+                <div class="options-section">
+                    <div class="option-group">
+                        <label>Genre:</label>
+                        <select id="genre">
+                            <option value="pop">Pop</option>
+                            <option value="rock">Rock</option>
+                            <option value="hiphop">Hip Hop</option>
+                            <option value="bollywood">Bollywood</option>
+                            <option value="classical">Classical</option>
+                            <option value="edm">EDM</option>
+                        </select>
                     </div>
 
-                    <div class="language-selection">
-                        <h3>Select Language</h3>
-                        <select class="language-select">
+                    <div class="option-group">
+                        <label>Language:</label>
+                        <select id="language">
                             <option value="hindi">Hindi</option>
                             <option value="english">English</option>
                             <option value="bengali">Bengali</option>
@@ -58,40 +59,97 @@
                         </select>
                     </div>
 
-                    <button class="create-btn">Create Music</button>
+                    <div class="option-group">
+                        <label>Voice:</label>
+                        <select id="voice">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="duet">Duet</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label>Duration:</label>
+                        <select id="duration">
+                            <option value="short">Short (1-2 min)</option>
+                            <option value="medium">Medium (2-3 min)</option>
+                            <option value="long">Long (3-4 min)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label>Mood:</label>
+                        <select id="mood">
+                            <option value="happy">Happy</option>
+                            <option value="sad">Sad</option>
+                            <option value="romantic">Romantic</option>
+                            <option value="energetic">Energetic</option>
+                            <option value="calm">Calm</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="preview-section">
-                    <div class="music-player">
-                        <div class="player-controls">
-                            <button class="control-btn" id="play-btn">
+                <div class="advanced-options">
+                    <h3>Advanced Options</h3>
+                    <div class="slider-group">
+                        <label>Tempo: <span id="tempoValue">120</span> BPM</label>
+                        <input type="range" id="tempo" min="60" max="180" value="120">
+                    </div>
+                    <div class="slider-group">
+                        <label>Energy Level: <span id="energyValue">70</span>%</label>
+                        <input type="range" id="energy" min="0" max="100" value="70">
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="generate-btn">
+                    <i class="fas fa-music"></i> Generate Music
+                </button>
+            </div>
+
+            <div class="output-section">
+                <div id="loadingIndicator" class="loading-indicator hidden">
+                    <div class="spinner"></div>
+                    <p>Creating your masterpiece...</p>
+                </div>
+
+                <div id="resultSection" class="result-section hidden">
+                    <h3>Your Generated Music</h3>
+                    <div class="audio-player">
+                        <audio id="audioPlayer" controls>
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="audio-controls">
+                            <button id="playPauseBtn" class="control-btn">
                                 <i class="fas fa-play"></i>
                             </button>
-                            <button class="control-btn" id="pause-btn">
-                                <i class="fas fa-pause"></i>
-                            </button>
-                            <button class="control-btn" id="stop-btn">
-                                <i class="fas fa-stop"></i>
-                            </button>
+                            <div class="progress-bar">
+                                <div id="progress" class="progress"></div>
+                            </div>
+                            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                        <button class="download-btn">
+                    </div>
+                    <div class="action-buttons">
+                        <button id="downloadBtn" class="action-btn">
                             <i class="fas fa-download"></i> Download
+                        </button>
+                        <button id="shareBtn" class="action-btn">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                        <button id="regenerateBtn" class="action-btn">
+                            <i class="fas fa-redo"></i> Regenerate
                         </button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Contact Us</h3>
+                <p>Phone: +91 8250720682</p>
                 <p>Email: aiguruji001@gmail.com</p>
-                <p>Email: subhojatra@outlook.com</p>
             </div>
             <div class="footer-section">
                 <h3>Follow Us</h3>
@@ -102,9 +160,6 @@
                     <a href="https://www.youtube.com/@aigurujiOfficial" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Ai Guruji. All rights reserved.</p>
         </div>
     </footer>
 
