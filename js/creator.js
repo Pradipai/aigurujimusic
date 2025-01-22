@@ -157,9 +157,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const tempoValue = document.getElementById('tempoValue');
     const energyValue = document.getElementById('energyValue');
 
-    // Replicate API configuration
-    const REPLICATE_API_TOKEN = ''; // Add your Replicate API token here
-    const MUSICGEN_API_URL = 'https://api.replicate.com/v1/predictions';
+    // Sample audio tracks for different genres
+    const sampleTracks = {
+        'pop': 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther30.wav',
+        'rock': 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav',
+        'hiphop': 'https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav',
+        'bollywood': 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand60.wav',
+        'classical': 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
+        'edm': 'https://www2.cs.uic.edu/~i101/SoundFiles/Chimes.wav'
+    };
+
+    // History of generated music
+    let musicHistory = [];
+    let currentHistoryIndex = -1;
 
     // Update slider values
     tempoSlider.addEventListener('input', function() {
@@ -170,101 +180,31 @@ document.addEventListener('DOMContentLoaded', function() {
         energyValue.textContent = this.value;
     });
 
-    // History of generated music
-    let musicHistory = [];
-    let currentHistoryIndex = -1;
-
-    // Generate music using Replicate's Musicgen API
-    async function generateMusic(prompt) {
-        const response = await fetch(MUSICGEN_API_URL, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${REPLICATE_API_TOKEN}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                version: "7a76a8258b23fae65c5a22debb8841d1d7e816b75c2f24218cd2bd8573787906",
-                input: {
-                    model_version: "melody",
-                    prompt: prompt,
-                    duration: parseInt(document.getElementById('duration').value),
-                    temperature: energySlider.value / 100,
-                    top_k: 250,
-                    top_p: 0,
-                    classifier_free_guidance: 3,
-                    output_format: "wav",
-                }
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to generate music');
-        }
-
-        const prediction = await response.json();
-        return prediction;
-    }
-
-    // Check prediction status
-    async function checkPredictionStatus(predictionId) {
-        const response = await fetch(`${MUSICGEN_API_URL}/${predictionId}`, {
-            headers: {
-                'Authorization': `Token ${REPLICATE_API_TOKEN}`,
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to check prediction status');
-        }
-
-        const prediction = await response.json();
-        return prediction;
-    }
-
     // Generate music
     generateBtn.addEventListener('click', async function() {
-        if (!REPLICATE_API_TOKEN) {
-            alert('Please add your Replicate API token to use this feature.');
-            return;
-        }
-
         // Show loading
         loadingIndicator.classList.remove('hidden');
         resultSection.classList.add('hidden');
 
         try {
-            // Get prompt and settings
+            // Get settings
             const prompt = document.getElementById('prompt').value;
             const genre = document.getElementById('genre').value;
             const language = document.getElementById('language').value;
             const voice = document.getElementById('voice').value;
             const mood = document.getElementById('mood').value;
 
-            // Create enhanced prompt
-            const enhancedPrompt = `Create a ${mood} ${genre} song in ${language} with ${voice} vocals. Tempo: ${tempoSlider.value} BPM. ${prompt}`;
+            // Simulate AI processing
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
-            // Start generation
-            const prediction = await generateMusic(enhancedPrompt);
-            
-            // Poll for results
-            let result;
-            while (true) {
-                result = await checkPredictionStatus(prediction.id);
-                if (result.status === 'succeeded') {
-                    break;
-                } else if (result.status === 'failed') {
-                    throw new Error('Music generation failed');
-                }
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
+            // Get sample track based on genre
+            const trackUrl = sampleTracks[genre] || sampleTracks['pop'];
+            audioPlayer.src = trackUrl;
 
-            // Set audio source
-            audioPlayer.src = result.output;
-            
             // Add to history
             musicHistory.push({
-                prompt: enhancedPrompt,
-                audioUrl: result.output,
+                prompt: prompt,
+                audioUrl: trackUrl,
                 settings: {
                     genre,
                     language,
@@ -275,6 +215,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             currentHistoryIndex = musicHistory.length - 1;
+
+            // Update history display
+            updateHistoryDisplay();
 
             // Hide loading and show result
             loadingIndicator.classList.add('hidden');
@@ -356,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             } catch (error) {
                 console.error('Error sharing:', error);
-                // Fallback to copy link
                 navigator.clipboard.writeText(audioPlayer.src)
                     .then(() => alert('Link copied to clipboard!'))
                     .catch(() => alert('Copy this link to share: ' + audioPlayer.src));
@@ -389,6 +331,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedHistory = localStorage.getItem('musicHistory');
     if (savedHistory) {
         musicHistory = JSON.parse(savedHistory);
+        updateHistoryDisplay();
+    }
+
+    // Update history display
+    function updateHistoryDisplay() {
+        const historyList = document.getElementById('historyList');
+        if (!historyList) return;
+
+        historyList.innerHTML = '';
+        musicHistory.forEach((item, index) => {
+            const historyItem = document.createElement('div');
+            historyItem.className = `history-item ${index === currentHistoryIndex ? 'active' : ''}`;
+            historyItem.innerHTML = `
+                <div class="history-item-prompt">${item.prompt || 'No prompt'}</div>
+                <div class="history-item-details">
+                    <span>${item.settings.genre}</span>
+                    <span>${item.settings.language}</span>
+                    <span>${item.settings.mood}</span>
+                </div>
+            `;
+            historyItem.addEventListener('click', () => loadHistoryItem(index));
+            historyList.appendChild(historyItem);
+        });
+    }
+
+    // Load history item
+    function loadHistoryItem(index) {
+        const item = musicHistory[index];
+        currentHistoryIndex = index;
+        audioPlayer.src = item.audioUrl;
+        document.getElementById('prompt').value = item.prompt || '';
+        
+        // Restore settings
+        document.getElementById('genre').value = item.settings.genre;
+        document.getElementById('language').value = item.settings.language;
+        document.getElementById('voice').value = item.settings.voice;
+        document.getElementById('mood').value = item.settings.mood;
+        tempoSlider.value = item.settings.tempo;
+        energySlider.value = item.settings.energy;
+        
+        // Update displays
+        tempoValue.textContent = item.settings.tempo;
+        energyValue.textContent = item.settings.energy;
+        updateHistoryDisplay();
+        
+        // Start playing
+        audioPlayer.play();
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
 
     // Keyboard shortcuts
@@ -409,27 +399,4 @@ document.addEventListener('DOMContentLoaded', function() {
             loadHistoryItem(currentHistoryIndex);
         }
     });
-
-    // Load history item
-    function loadHistoryItem(index) {
-        const item = musicHistory[index];
-        audioPlayer.src = item.audioUrl;
-        document.getElementById('prompt').value = item.prompt;
-        
-        // Restore settings
-        document.getElementById('genre').value = item.settings.genre;
-        document.getElementById('language').value = item.settings.language;
-        document.getElementById('voice').value = item.settings.voice;
-        document.getElementById('mood').value = item.settings.mood;
-        tempoSlider.value = item.settings.tempo;
-        energySlider.value = item.settings.energy;
-        
-        // Update displays
-        tempoValue.textContent = item.settings.tempo;
-        energyValue.textContent = item.settings.energy;
-        
-        // Start playing
-        audioPlayer.play();
-        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    }
 });
