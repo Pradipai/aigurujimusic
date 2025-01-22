@@ -110,6 +110,7 @@
                 <div id="loadingIndicator" class="loading-indicator hidden">
                     <div class="spinner"></div>
                     <p>Creating your masterpiece...</p>
+                    <p class="loading-tip">This may take a few minutes. We're using advanced AI to create high-quality music.</p>
                 </div>
 
                 <div id="resultSection" class="result-section hidden">
@@ -139,6 +140,23 @@
                             <i class="fas fa-redo"></i> Regenerate
                         </button>
                     </div>
+                </div>
+
+                <div class="history-section">
+                    <h3>Your Music History</h3>
+                    <p class="history-tip">Use Ctrl + Left/Right Arrow to navigate through your previous generations</p>
+                    <div id="historyList" class="history-list">
+                        <!-- History items will be added here dynamically -->
+                    </div>
+                </div>
+
+                <div class="keyboard-shortcuts">
+                    <h4>Keyboard Shortcuts</h4>
+                    <ul>
+                        <li><kbd>Space</kbd> Play/Pause</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>←</kbd> Previous Track</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>→</kbd> Next Track</li>
+                    </ul>
                 </div>
             </div>
         </div>
