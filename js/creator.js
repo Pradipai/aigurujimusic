@@ -157,15 +157,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const tempoValue = document.getElementById('tempoValue');
     const energyValue = document.getElementById('energyValue');
 
-    // Sample audio tracks for different genres
-    const sampleTracks = {
-        'pop': 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther30.wav',
-        'rock': 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav',
-        'hiphop': 'https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav',
-        'bollywood': 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand60.wav',
-        'classical': 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
-        'edm': 'https://www2.cs.uic.edu/~i101/SoundFiles/Chimes.wav'
-    };
+    // Debug mode
+    const DEBUG = true;
+
+    function log(...args) {
+        if (DEBUG) {
+            console.log('[AI Guruji]', ...args);
+        }
+    }
+
+    // API configuration
+    const API_URL = 'https://api-inference.huggingface.co/models/facebook/musicgen-large';
+    let API_TOKEN = '';
+
+    // Function to set API token
+    function setApiToken(token) {
+        API_TOKEN = token;
+        localStorage.setItem('hf_token', token);
+        log('API token set');
+    }
+
+    // Try to get token from localStorage
+    const savedToken = localStorage.getItem('hf_token');
+    if (savedToken) {
+        setApiToken(savedToken);
+        log('Loaded saved API token');
+    }
 
     // History of generated music
     let musicHistory = [];
@@ -180,8 +197,82 @@ document.addEventListener('DOMContentLoaded', function() {
         energyValue.textContent = this.value;
     });
 
+    // Test audio playback
+    function testAudioPlayback() {
+        const testAudio = new Audio();
+        testAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+        
+        testAudio.play().then(() => {
+            log('Audio playback test successful');
+        }).catch(error => {
+            log('Audio playback test failed:', error);
+            alert('Audio playback might be blocked. Please ensure autoplay is enabled and try again.');
+        });
+    }
+
+    // Test audio playback on page load
+    testAudioPlayback();
+
+    // Generate music using Hugging Face API
+    async function generateMusic(prompt) {
+        log('Starting music generation with prompt:', prompt);
+
+        if (!API_TOKEN) {
+            const token = window.prompt('Please enter your Hugging Face API token:');
+            if (!token) {
+                throw new Error('API token is required');
+            }
+            setApiToken(token);
+        }
+
+        log('Making API request...');
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_TOKEN}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                inputs: prompt,
+                parameters: {
+                    max_new_tokens: parseInt(document.getElementById('duration').value) * 50,
+                    temperature: energySlider.value / 100,
+                    top_k: 250,
+                    top_p: 0.9,
+                    repetition_penalty: 1.2,
+                    audio_length: parseInt(document.getElementById('duration').value),
+                }
+            })
+        });
+
+        log('API response status:', response.status);
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem('hf_token');
+                API_TOKEN = '';
+                throw new Error('Invalid API token. Please try again.');
+            }
+
+            const errorText = await response.text();
+            log('API error:', errorText);
+            throw new Error(`Failed to generate music: ${response.status} ${errorText}`);
+        }
+
+        log('Getting response blob...');
+        const blob = await response.blob();
+        log('Blob size:', blob.size, 'bytes');
+        log('Blob type:', blob.type);
+
+        const url = URL.createObjectURL(blob);
+        log('Created object URL:', url);
+        return url;
+    }
+
     // Generate music
     generateBtn.addEventListener('click', async function() {
+        log('Generate button clicked');
+        
         // Show loading
         loadingIndicator.classList.remove('hidden');
         resultSection.classList.add('hidden');
@@ -194,17 +285,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const voice = document.getElementById('voice').value;
             const mood = document.getElementById('mood').value;
 
-            // Simulate AI processing
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            log('Settings:', { prompt, genre, language, voice, mood });
 
-            // Get sample track based on genre
-            const trackUrl = sampleTracks[genre] || sampleTracks['pop'];
-            audioPlayer.src = trackUrl;
+            // Create enhanced prompt
+            const enhancedPrompt = `Create a ${mood} ${genre} song in ${language} with ${voice} vocals. Tempo: ${tempoSlider.value} BPM. ${prompt}`;
+            log('Enhanced prompt:', enhancedPrompt);
+
+            // Generate music
+            const audioUrl = await generateMusic(enhancedPrompt);
+            log('Setting audio source:', audioUrl);
+            
+            audioPlayer.src = audioUrl;
 
             // Add to history
             musicHistory.push({
-                prompt: prompt,
-                audioUrl: trackUrl,
+                prompt: enhancedPrompt,
+                audioUrl: audioUrl,
                 settings: {
                     genre,
                     language,
@@ -224,28 +320,63 @@ document.addEventListener('DOMContentLoaded', function() {
             resultSection.classList.remove('hidden');
 
             // Start playing
-            audioPlayer.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            log('Starting playback...');
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    log('Playback started successfully');
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }).catch(error => {
+                    log('Playback failed:', error);
+                    alert('Failed to play audio. Please try clicking the play button.');
+                });
+            }
 
             // Save to local storage
             localStorage.setItem('musicHistory', JSON.stringify(musicHistory));
+            log('History saved to localStorage');
 
         } catch (error) {
             console.error('Error generating music:', error);
-            alert('Error generating music. Please try again.');
+            alert(error.message || 'Error generating music. Please try again.');
             loadingIndicator.classList.add('hidden');
         }
     });
 
     // Play/Pause button
     playPauseBtn.addEventListener('click', function() {
+        log('Play/Pause button clicked');
         if (audioPlayer.paused) {
-            audioPlayer.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            const playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    log('Playback started');
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }).catch(error => {
+                    log('Playback failed:', error);
+                });
+            }
         } else {
             audioPlayer.pause();
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            log('Playback paused');
         }
+    });
+
+    // Audio events
+    audioPlayer.addEventListener('loadstart', () => log('Audio loading started'));
+    audioPlayer.addEventListener('loadeddata', () => log('Audio data loaded'));
+    audioPlayer.addEventListener('canplay', () => log('Audio can play'));
+    audioPlayer.addEventListener('playing', () => log('Audio playing'));
+    audioPlayer.addEventListener('pause', () => log('Audio paused'));
+    audioPlayer.addEventListener('ended', () => {
+        log('Audio ended');
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        progressBar.style.width = '0%';
+    });
+    audioPlayer.addEventListener('error', (e) => {
+        log('Audio error:', e.target.error);
+        alert('Error playing audio. Please try again.');
     });
 
     // Update progress bar
@@ -265,10 +396,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const width = rect.width;
         const percentage = x / width;
         audioPlayer.currentTime = percentage * audioPlayer.duration;
+        log('Seeked to:', percentage * 100, '%');
     });
 
     // Download button
     downloadBtn.addEventListener('click', async function() {
+        log('Download button clicked');
         if (audioPlayer.src) {
             try {
                 const response = await fetch(audioPlayer.src);
@@ -281,8 +414,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.click();
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
+                log('Download completed');
             } catch (error) {
-                console.error('Error downloading music:', error);
+                log('Download error:', error);
                 alert('Error downloading music. Please try again.');
             }
         }
@@ -290,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Share button
     shareBtn.addEventListener('click', async function() {
+        log('Share button clicked');
         if (navigator.share && audioPlayer.src) {
             try {
                 await navigator.share({
@@ -297,11 +432,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: 'Listen to this amazing music I created with AI Guruji',
                     url: audioPlayer.src
                 });
+                log('Shared successfully');
             } catch (error) {
-                console.error('Error sharing:', error);
+                log('Share error:', error);
                 navigator.clipboard.writeText(audioPlayer.src)
-                    .then(() => alert('Link copied to clipboard!'))
-                    .catch(() => alert('Copy this link to share: ' + audioPlayer.src));
+                    .then(() => {
+                        log('Link copied to clipboard');
+                        alert('Link copied to clipboard!');
+                    })
+                    .catch(() => {
+                        log('Copy to clipboard failed');
+                        alert('Copy this link to share: ' + audioPlayer.src);
+                    });
             }
         } else {
             alert('Copy this link to share: ' + audioPlayer.src);
@@ -310,6 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Regenerate button
     regenerateBtn.addEventListener('click', function() {
+        log('Regenerate button clicked');
         generateBtn.click();
     });
 
@@ -321,17 +464,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
     }
 
-    // Audio ended event
-    audioPlayer.addEventListener('ended', function() {
-        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-        progressBar.style.width = '0%';
-    });
-
     // Load history from local storage
     const savedHistory = localStorage.getItem('musicHistory');
     if (savedHistory) {
         musicHistory = JSON.parse(savedHistory);
         updateHistoryDisplay();
+        log('Loaded history from localStorage:', musicHistory.length, 'items');
     }
 
     // Update history display
@@ -354,10 +492,12 @@ document.addEventListener('DOMContentLoaded', function() {
             historyItem.addEventListener('click', () => loadHistoryItem(index));
             historyList.appendChild(historyItem);
         });
+        log('Updated history display');
     }
 
     // Load history item
     function loadHistoryItem(index) {
+        log('Loading history item:', index);
         const item = musicHistory[index];
         currentHistoryIndex = index;
         audioPlayer.src = item.audioUrl;
@@ -377,8 +517,15 @@ document.addEventListener('DOMContentLoaded', function() {
         updateHistoryDisplay();
         
         // Start playing
-        audioPlayer.play();
-        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        const playPromise = audioPlayer.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                log('History item playback started');
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(error => {
+                log('History item playback failed:', error);
+            });
+        }
     }
 
     // Keyboard shortcuts
