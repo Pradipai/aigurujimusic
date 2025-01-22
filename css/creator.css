@@ -545,3 +545,78 @@ body {
 .info-box {
     animation: fadeIn 0.6s ease-out;
 }
+
+.suno-integration {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 15px;
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.suno-integration h2 {
+    color: #00ff87;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.suno-integration p {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.suno-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(45deg, #00ff87, #60efff);
+    color: #1a1a2e;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.suno-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 135, 0.3);
+}
+
+.features-list {
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.features-list h3 {
+    color: #60efff;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.features-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features-list li {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.features-list i {
+    color: #00ff87;
+    font-size: 1.2rem;
+}
