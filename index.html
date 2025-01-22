@@ -1,0 +1,188 @@
+cd "/c/Users/subho/OneDrive/Desktop/ai guru"
+git init
+git add .
+git commit -m "Initial commit"<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai Guruji - Your Music Creation Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.4/dist/gsap.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Ai Guruji Logo" class="logo-img">
+                <h1>Ai Guruji</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="creator.html">Creator</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="gadgets.html">Music Gadgets</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#" class="sign-in-btn">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="animate-text">Welcome to Ai Guruji</h2>
+                <p>Create, Share, and Experience Music Like Never Before</p>
+                <a href="creator.html" class="cta-button">Create Now</a>
+            </div>
+            <div id="hero-animation" class="animation-container"></div>
+        </section>
+
+        <section class="featured-video">
+            <h2>Featured Content</h2>
+            <div class="video-container">
+                <iframe 
+                    width="860" 
+                    height="515" 
+                    src="https://www.youtube.com/embed/pKnImmY5sxQ" 
+                    title="Ai Guruji Featured Video" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <section class="playlists">
+            <h2>Our Popular Playlists</h2>
+            <div class="playlist-grid">
+                <a href="https://www.youtube.com/playlist?list=PLZaRkolDdlClXVONxhLpYsSPsZcxahRQs" class="playlist-card">
+                    <div class="playlist-content">
+                        <i class="fas fa-crown"></i>
+                        <h3>Most Popular Videos</h3>
+                        <p>Watch our top-performing content</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/playlist?list=PLZaRkolDdlCmtftX868HCC3qCjguWJnx3" class="playlist-card">
+                    <div class="playlist-content">
+                        <i class="fas fa-heart"></i>
+                        <h3>Most Loved Videos</h3>
+                        <p>Fan favorites and trending content</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/playlist?list=PLZaRkolDdlCnT8jWmlliSTD9cIkTLhnXj" class="playlist-card">
+                    <div class="playlist-content">
+                        <i class="fas fa-clock"></i>
+                        <h3>Latest Videos</h3>
+                        <p>Check out our newest releases</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="features-overview">
+            <div class="features-container">
+                <div class="features-text">
+                    <h2>Why Choose Ai Guruji?</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <i class="fas fa-magic"></i>
+                            <h3>AI-Powered Music Creation</h3>
+                            <p>Create professional-quality music in minutes using our advanced AI technology. Choose your genre, language, and style - let AI do the rest!</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-globe"></i>
+                            <h3>Multi-Language Support</h3>
+                            <p>Create music in multiple languages including Hindi, English, Bengali, Tamil, and Telugu. Express yourself in your preferred language.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <h3>Vibrant Community</h3>
+                            <p>Join a community of music enthusiasts, share your creations, and get inspired by others. Collaborate and grow together!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="features-image">
+                    <div class="features-gradient">
+                        <div class="stats-overlay">
+                            <div class="stat-item">
+                                <span class="stat-number">10K+</span>
+                                <span class="stat-label">Active Users</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">50K+</span>
+                                <span class="stat-label">Songs Created</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">5+</span>
+                                <span class="stat-label">Languages</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="user-benefits">
+            <h2>What You Get with Ai Guruji</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Quick Creation</h3>
+                    <p>Generate complete songs in minutes instead of hours or days. Our AI understands your requirements and delivers professional results quickly.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Professional Quality</h3>
+                    <p>Get studio-quality output with perfect mixing and mastering. Our AI has been trained on thousands of professional tracks.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Cost-Effective</h3>
+                    <p>Save thousands on studio time and equipment. Create unlimited music with our affordable plans.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-copyright"></i>
+                    </div>
+                    <h3>Rights & Ownership</h3>
+                    <p>You own 100% rights to the music you create. Use your creations anywhere without worrying about copyright issues.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Phone: +91 8250720682</p>
+                <p>Email: aiguruji001@gmail.com</p>
+                <p>Email: subhojatra@outlook.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1CuuDjCY8B/" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com/AIGURUJIMUSIC" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com/AiGurujiofficial" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@aigurujiOfficial" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ai Guruji. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+.community-main {
+    padding-top: 80px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-color), #2A2A4E);
+}
+
+.community-hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.community-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.community-hero p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.youtube-feed {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.youtube-feed h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.youtube-embed {
+    max-width: 860px;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.community-features {
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card i {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.feature-card p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .community-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .youtube-embed {
+        width: 100%;
+    }
+    
+    .youtube-embed iframe {
+        width: 100%;
+        height: 300px;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+}
