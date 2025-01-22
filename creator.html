@@ -8,39 +8,165 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>AI Music Creator</h1>
-            <p>Create amazing music with AI</p>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="AI Guruji Logo" class="logo-img">
+                <h1>AI Guruji</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="creator.html" class="active">Creator</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="gadgets.html">Music Gadgets</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="creator-main">
+        <div class="hero-section">
+            <h1>Create Amazing Music with Suno AI</h1>
+            <p>Professional-grade AI music generation at your fingertips</p>
+            <a href="https://suno.ai" target="_blank" class="cta-button">
+                Start Creating Now
+                <i class="fas fa-external-link-alt"></i>
+            </a>
         </div>
 
-        <main class="creator-main">
-            <div class="creator-container">
-                <div class="input-section">
-                    <div class="suno-integration">
-                        <h2>Create Music with Suno AI</h2>
-                        <p>Click below to start creating amazing music:</p>
-                        <a href="https://suno.ai" target="_blank" class="suno-button">
-                            Open Suno AI Studio
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-                        <div class="features-list">
-                            <h3>What you can do with Suno AI:</h3>
-                            <ul>
-                                <li><i class="fas fa-music"></i> Create original songs from text</li>
-                                <li><i class="fas fa-microphone"></i> Generate vocals in any style</li>
-                                <li><i class="fas fa-download"></i> Download your creations</li>
-                                <li><i class="fas fa-share"></i> Share with friends</li>
-                            </ul>
-                        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <img src="images/suno-feature1.jpg" alt="Text to Music" class="feature-img">
+                <h3>Text to Music</h3>
+                <p>Turn your text descriptions into complete songs with vocals and instruments</p>
+                <div class="example">
+                    <p class="prompt">"Create an upbeat pop song about summer love"</p>
+                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-music"></i>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <img src="images/suno-feature2.jpg" alt="Multiple Genres" class="feature-img">
+                <h3>Multiple Genres</h3>
+                <p>Choose from pop, rock, hip-hop, classical, and more</p>
+                <div class="genre-list">
+                    <span class="genre-tag">Pop</span>
+                    <span class="genre-tag">Rock</span>
+                    <span class="genre-tag">Hip-Hop</span>
+                    <span class="genre-tag">Classical</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <img src="images/suno-feature3.jpg" alt="Voice Styles" class="feature-img">
+                <h3>Voice Styles</h3>
+                <p>Generate vocals in different styles and languages</p>
+                <div class="voice-options">
+                    <span class="voice-tag"><i class="fas fa-male"></i> Male</span>
+                    <span class="voice-tag"><i class="fas fa-female"></i> Female</span>
+                    <span class="voice-tag"><i class="fas fa-users"></i> Duet</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <img src="images/suno-feature4.jpg" alt="Download & Share" class="feature-img">
+                <h3>Download & Share</h3>
+                <p>Export your music in high quality and share with the world</p>
+                <div class="format-options">
+                    <span class="format-tag">WAV</span>
+                    <span class="format-tag">MP3</span>
+                    <span class="format-tag">STEMS</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Describe Your Song</h3>
+                    <p>Write a detailed description of the song you want to create</p>
+                    <img src="images/step1.jpg" alt="Step 1" class="step-img">
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Choose Settings</h3>
+                    <p>Select genre, voice, tempo, and other options</p>
+                    <img src="images/step2.jpg" alt="Step 2" class="step-img">
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Generate & Edit</h3>
+                    <p>Generate your song and fine-tune it to perfection</p>
+                    <img src="images/step3.jpg" alt="Step 3" class="step-img">
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Download & Share</h3>
+                    <p>Export your song and share it with the world</p>
+                    <img src="images/step4.jpg" alt="Step 4" class="step-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="showcase">
+            <h2>What You Can Create</h2>
+            <div class="example-grid">
+                <div class="example-card">
+                    <img src="images/example1.jpg" alt="Pop Song Example" class="example-img">
+                    <div class="example-content">
+                        <h3>Pop Hits</h3>
+                        <p class="example-prompt">"Create an upbeat pop song with female vocals about dancing all night"</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <img src="images/example2.jpg" alt="Rock Song Example" class="example-img">
+                    <div class="example-content">
+                        <h3>Rock Anthems</h3>
+                        <p class="example-prompt">"Generate a powerful rock song with electric guitar solos"</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <img src="images/example3.jpg" alt="Hip Hop Example" class="example-img">
+                    <div class="example-content">
+                        <h3>Hip Hop Tracks</h3>
+                        <p class="example-prompt">"Make a hip hop track with strong beats and rap verses"</p>
                     </div>
                 </div>
             </div>
-        </main>
-
-        <div class="footer">
-            <p>AI Guruji &copy; 2024 | <a href="index.html">Home</a></p>
         </div>
-    </div>
+
+        <div class="cta-section">
+            <h2>Ready to Create?</h2>
+            <p>Join thousands of creators making amazing music with AI</p>
+            <a href="https://suno.ai" target="_blank" class="cta-button large">
+                Start Creating with Suno AI
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: aiguruji001@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 AI Guruji. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
