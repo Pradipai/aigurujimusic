@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Studio - Ai Guruji</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/creator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>Ai Guruji</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="creator.html">Creator</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="gadgets.html">Music Gadgets</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#" class="sign-in-btn">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="creator-main">
+        <section class="creator-studio">
+            <h2>Music Creator Studio</h2>
+            <div class="creator-container">
+                <div class="prompt-section">
+                    <textarea 
+                        placeholder="Describe your music (e.g., 'Create a romantic Hindi song with guitar and piano')"
+                        class="prompt-input"
+                    ></textarea>
+                    
+                    <div class="genre-selection">
+                        <h3>Select Genre</h3>
+                        <div class="genre-buttons">
+                            <button class="genre-btn">Pop</button>
+                            <button class="genre-btn">Rock</button>
+                            <button class="genre-btn">Classical</button>
+                            <button class="genre-btn">Hip Hop</button>
+                            <button class="genre-btn">Jazz</button>
+                            <button class="genre-btn">Electronic</button>
+                        </div>
+                    </div>
+
+                    <div class="language-selection">
+                        <h3>Select Language</h3>
+                        <select class="language-select">
+                            <option value="hindi">Hindi</option>
+                            <option value="english">English</option>
+                            <option value="bengali">Bengali</option>
+                            <option value="tamil">Tamil</option>
+                            <option value="telugu">Telugu</option>
+                        </select>
+                    </div>
+
+                    <button class="create-btn">Create Music</button>
+                </div>
+
+                <div class="preview-section">
+                    <div class="music-player">
+                        <div class="player-controls">
+                            <button class="control-btn" id="play-btn">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="control-btn" id="pause-btn">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button class="control-btn" id="stop-btn">
+                                <i class="fas fa-stop"></i>
+                            </button>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        <button class="download-btn">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: aiguruji001@gmail.com</p>
+                <p>Email: subhojatra@outlook.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1CuuDjCY8B/" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com/AIGURUJIMUSIC" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com/AiGurujiofficial" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@aigurujiOfficial" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ai Guruji. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/creator.js"></script>
+</body>
+</html>
